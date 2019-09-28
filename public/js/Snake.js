@@ -2,8 +2,9 @@ export default class Snake{
     constructor(Scene)
     {
         this.scene=Scene;
+        this.lastMoveTime=0;
+        this.moveInterval=450;//1000 milliseconds == 1 second
         this.direction=Phaser.Math.Vector2.RIGHT;
-
         this.body=[];
         this.body.push(this.scene.add.rectangle(0,0,16,16,0xffffff).setOrigin(0));
         this.scene.input.keyboard.on('keydown',e => {this.keydown(e);});
@@ -33,7 +34,16 @@ export default class Snake{
     }
     update(time)
     {
-        this.body[0].x+=this.direction.x;
-        this.body[0].y+=this.direction.y;
+        if(time>=this.lastMoveTime+this.moveInterval)
+        {
+            this.lastMoveTime=time;
+            this.draw();
+        }
+    }
+
+    draw()
+    {
+        this.body[0].x+=this.direction.x*16 ;
+        this.body[0].y+=this.direction.y*16;
     }
 }
