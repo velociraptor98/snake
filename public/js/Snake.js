@@ -3,7 +3,7 @@ export default class Snake{
     {
         this.scene=Scene;
         this.lastMoveTime=0;
-        this.moveInterval=450;//1000 milliseconds == 1 second
+        this.moveInterval=100;//1000 milliseconds == 1 second
         this.direction=Phaser.Math.Vector2.RIGHT;
         this.body=[];
         this.SnakeSize=16;
@@ -54,12 +54,32 @@ export default class Snake{
 
     draw()
     {
-        for(let index=this.body.length-1;index>0;--index)
+        var x =this.body[0].x;
+        var y=this.body[0].y;
+
+        //check for objective consumed or not
+        if(this.apple.x === x && this.apple.y===y)
+        {
+            this.body.push(this.scene.add.rectangle(0,0,this.SnakeSize,this.SnakeSize,0xffffff).setOrigin(0));
+            this.RandomApple();
+        }
+        for(var index=this.body.length-1;index>0;--index)
         {
             this.body[index].x=this.body[index-1].x;
             this.body[index].y=this.body[index-1].y;
         }
         this.body[0].x+=this.direction.x*this.SnakeSize;
         this.body[0].y+=this.direction.y*this.SnakeSize;
+        if(this.body[0].x<0 || this.body[0]>this.scene.game.config.width || this.body[0].y<0 || this.body[0].y>this.scene.game.config.height)
+        {
+            //out of bounds
+            this.scene.scene.restart();
+        }
+        //check if tail collides with snake head
+        var tail=this.body.slice(1);
+        if(tail.filter(s => s.x === this.body[0].x && s.y === this.body[0].y).length>0)
+        {
+            this.scene.scene.restart();
+        }
     }
 }
