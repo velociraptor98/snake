@@ -26,19 +26,23 @@ export default class Snake{
         {
             //37 for left arrow
             case 37:
-                this.direction=Phaser.Math.Vector2.LEFT;
+                if(this.direction!== Phaser.Math.Vector2.RIGHT)
+                    this.direction=Phaser.Math.Vector2.LEFT;
                 break;
             //38 for up arrow
             case 38:
-                    this.direction=Phaser.Math.Vector2.UP;
+                    if(this.direction!== Phaser.Math.Vector2.DOWN)
+                        this.direction=Phaser.Math.Vector2.UP;
                 break;
             //39 for right arrow
             case 39:
-                this.direction=Phaser.Math.Vector2.RIGHT;
+                if(this.direction!== Phaser.Math.Vector2.LEFT)
+                    this.direction=Phaser.Math.Vector2.RIGHT;
                 break;
             //40 for down arrow
             case 40:
-                this.direction=Phaser.Math.Vector2.DOWN;
+                if(this.direction!== Phaser.Math.Vector2.UP)
+                    this.direction=Phaser.Math.Vector2.DOWN;
                 break;
 
         }
